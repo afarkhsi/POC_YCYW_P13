@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS conversations (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     customer_id BIGINT NOT NULL,
     agent_id BIGINT,
+    -- ✅ status ici, sur conversations
+    status VARCHAR(20) NOT NULL DEFAULT 'OPEN',
     created_at DATETIME NOT NULL,
     updated_at DATETIME NOT NULL,
     CONSTRAINT fk_conversation_customer FOREIGN KEY (customer_id) REFERENCES users(id),
@@ -35,6 +37,7 @@ CREATE TABLE IF NOT EXISTS chats (
     conversation_id BIGINT NOT NULL,
     sender_id BIGINT NOT NULL,
     message TEXT NOT NULL,
+    -- ✅ pas de status ici
     created_at DATETIME NOT NULL,
     CONSTRAINT fk_chat_conversation FOREIGN KEY (conversation_id) REFERENCES conversations(id),
     CONSTRAINT fk_chat_sender FOREIGN KEY (sender_id) REFERENCES users(id)

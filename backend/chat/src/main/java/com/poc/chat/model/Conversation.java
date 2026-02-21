@@ -23,6 +23,10 @@ public class Conversation {
     @JoinColumn(name = "agent_id")
     private User agent;
 
+    // Evite de recréer une conversation ouverte si le client en a déjà une
+    @Column(nullable = false)
+    private String status; // OPEN / CLOSED
+
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
@@ -32,6 +36,7 @@ public class Conversation {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        if (status == null) status = "OPEN";
     }
 
     @PreUpdate

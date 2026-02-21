@@ -1,5 +1,6 @@
 package com.poc.chat.service;
 
+import com.poc.chat.exception.UserNotFoundException;
 import com.poc.chat.model.User;
 import com.poc.chat.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,17 @@ public class UserService {
 
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException(email));
+    }
+
+    public User getById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     public boolean checkPassword(String rawPassword, String encodedPassword) {

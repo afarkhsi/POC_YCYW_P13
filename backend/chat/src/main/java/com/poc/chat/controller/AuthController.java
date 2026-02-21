@@ -1,18 +1,12 @@
 package com.poc.chat.controller;
 
+import com.poc.chat.config.JwtUtils;
 import com.poc.chat.dto.AuthDTO;
-import com.poc.chat.model.User;
 import com.poc.chat.service.UserService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -20,30 +14,22 @@ import java.util.Date;
 public class AuthController {
 
     private final UserService userService;
-
-    @Value("${jwt.secret}")
-    private String jwtSecret;
-
-    @Value("${jwt.expiration}")
-    private long jwtExpiration;
+    private final JwtUtils jwtUtils;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthDTO.LoginRequest request) {
+    public ResponseEntity<?> login(@Valid @RequestBody AuthDTO.LoginRequest request) {
+        // @Valid pour déclencher la validation Bean Validation
         return userService.findByEmail(request.getEmail())
                 .filter(user -> userService.checkPassword(request.getPassword(), user.getPassword()))
                 .map(user -> {
-                    String token = Jwts.builder()
-                            .setSubject(user.getEmail())
-                            .claim("userId", user.getId())
-                            .claim("type", user.getType())
-                            .setIssuedAt(new Date())
-                            .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
-                            .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8)),
-                                    SignatureAlgorithm.HS256)
-                            .compact();
+                    String token = jwtUtils.generateToken(
+                            user.getId(), user.getEmail(), user.getType()
+                    );
                     return ResponseEntity.ok(new AuthDTO.LoginResponse(
-                            token, user.getId(),
-                            user.getFirstname(), user.getLastname(),
+                            token,
+                            user.getId(),
+                            user.getFirstname(),
+                            user.getLastname(),
                             user.getType()
                     ));
                 })
