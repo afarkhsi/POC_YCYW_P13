@@ -51,7 +51,7 @@ INSERT INTO users (firstname, lastname, email, password, type, created_at, updat
 (
     'Jean',
     'Dupont',
-    'client@test.com',
+    'client@mail.com',
     '$2a$10$2O77ndhTxP9bgLYR2kCN9OqJrQA6tFYKP1tSnBNihEBiugVcsLLVK',
     'CLIENT',
     NOW(),
@@ -60,10 +60,28 @@ INSERT INTO users (firstname, lastname, email, password, type, created_at, updat
 (
     'Marie',
     'Martin',
-    'agent@test.com',
+    'agent@mail.com',
     '$2a$10$2O77ndhTxP9bgLYR2kCN9OqJrQA6tFYKP1tSnBNihEBiugVcsLLVK',
     'AGENT_SUPPORT',
     NOW(),
+    NOW()
+),
+(
+    'Pierre', 
+    'Bernard', 
+    'client2@mail.com',
+    '$2a$10$2O77ndhTxP9bgLYR2kCN9OqJrQA6tFYKP1tSnBNihEBiugVcsLLVK',
+    'CLIENT', 
+    NOW(),
+    NOW()
+),
+(
+    'Sophie', 
+    'Leblanc', 
+    'client3@mail.com',
+    '$2a$10$2O77ndhTxP9bgLYR2kCN9OqJrQA6tFYKP1tSnBNihEBiugVcsLLVK',
+    'CLIENT', 
+    NOW(), 
     NOW()
 );
 
