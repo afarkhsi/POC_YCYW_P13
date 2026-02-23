@@ -1,0 +1,147 @@
+<div
+  style="
+    min-height: 100vh;
+    background: url('assets/banner.png') center center / cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  "
+>
+  <div
+    style="
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    "
+  >
+    <div style="text-align: center; margin-bottom: 32px">
+      <div
+        style="
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: white;
+        "
+      >
+        <img
+          src="assets/logo.png"
+          alt="Logo"
+          style="width: 100%; height: 100%; object-fit: contain;"
+        />
+      </div>
+      <h2 style="margin: 0; color: #1a1a2e; font-size: 24px; font-weight: 700">
+        Your Car Your Way
+      </h2>
+      <p style="margin: 8px 0 0; color: #6b7280; font-size: 14px">
+        Connectez-vous à votre espace chat
+      </p>
+    </div>
+
+    <div style="margin-bottom: 20px">
+      <label
+        style="
+          display: block;
+          font-size: 13px;
+          font-weight: 600;
+          color: #374151;
+          margin-bottom: 6px;
+        "
+      >
+        Adresse email
+      </label>
+      <input
+        type="email"
+        [(ngModel)]="email"
+        placeholder="vous@example.com"
+        [disabled]="isLoading"
+        (keyup.enter)="login()"
+        style="
+          width: 100%;
+          padding: 12px 16px;
+          border: 2px solid #e5e7eb;
+          border-radius: 10px;
+          font-size: 14px;
+          outline: none;
+          box-sizing: border-box;
+        "
+      />
+    </div>
+
+    <div style="margin-bottom: 24px">
+      <label
+        style="
+          display: block;
+          font-size: 13px;
+          font-weight: 600;
+          color: #374151;
+          margin-bottom: 6px;
+        "
+      >
+        Mot de passe
+      </label>
+      <input
+        type="password"
+        [(ngModel)]="password"
+        placeholder="••••••••"
+        [disabled]="isLoading"
+        (keyup.enter)="login()"
+        style="
+          width: 100%;
+          padding: 12px 16px;
+          border: 2px solid #e5e7eb;
+          border-radius: 10px;
+          font-size: 14px;
+          outline: none;
+          box-sizing: border-box;
+        "
+      />
+    </div>
+
+    <!-- affichage de l'erreur -->
+    <p
+      *ngIf="error"
+      style="
+        background: #fef2f2;
+        color: #dc2626;
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-size: 13px;
+        margin-bottom: 16px;
+        border: 1px solid #fecaca;
+      "
+    >
+      ⚠️ {{ error }}
+    </p>
+
+    <button
+      (click)="login()"
+      [disabled]="isLoading"
+      style="
+        width: 100%;
+        padding: 13px;
+        background: linear-gradient(135deg, #0f3460, #e94560);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+        opacity: 1;
+        transition: opacity 0.2s;
+      "
+      [style.opacity]="isLoading ? '0.6' : '1'"
+      [style.cursor]="isLoading ? 'not-allowed' : 'pointer'"
+    >
+      <!-- feedback visuel pendant le chargement -->
+      {{ isLoading ? 'Connexion...' : 'Se connecter →' }}
+    </button>
+  </div>
+</div>
