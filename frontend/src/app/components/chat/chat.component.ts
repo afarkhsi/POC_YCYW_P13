@@ -19,7 +19,6 @@ import { switchMap, takeWhile } from 'rxjs/operators';
 @Component({
   selector: 'app-chat',
   standalone: true,
-  // 🟡 FIX : suppression des imports Angular Material non utilisés dans le template
   imports: [CommonModule, FormsModule],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
@@ -31,11 +30,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   newMessage = '';
   pendingConversations: any[] = [];
   myConversations: any[] = [];
-  // 🟡 FIX : états de chargement et d'erreur
+  // états de chargement et d'erreur
   isConnecting = false;
   errorMessage = '';
 
-  // 🟡 FIX : référence à la zone de messages pour l'auto-scroll
+  // référence à la zone de messages pour l'auto-scroll
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
   private shouldScrollToBottom = false;
 
@@ -78,7 +77,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     } catch (e) {}
   }
 
-  // 🟡 Rafraîchissement automatique des listes toutes les 5 secondes
+  // Rafraîchissement automatique des listes toutes les 5 secondes
   // S'arrête automatiquement dès que l'agent rejoint une conversation
   private startPolling(): void {
     this.pollingSubscription = interval(5000)
@@ -87,7 +86,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         takeWhile(() => this.conversationId === null),
         switchMap(
           () =>
-            // on refait les deux appels en séquence
             new Promise<void>((resolve) => {
               this.chatService.getPendingConversations().subscribe({
                 next: (convs) => (this.pendingConversations = convs),
@@ -109,7 +107,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       .subscribe();
   }
 
-  // 🟡 Arrêt explicite du polling (appelé quand l'agent rejoint une conversation)
+  // arrêt explicite du polling (appelé quand l'agent rejoint une conversation)
   private stopPolling(): void {
     this.pollingSubscription?.unsubscribe();
     this.pollingSubscription = null;
